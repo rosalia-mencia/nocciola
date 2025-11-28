@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nocciola | Crema de Avellanas Natural</title>
+    
+    <!-- Fuentes de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* --- VARIABLES DE COLOR --- */
+        :root {
+            --bg-cream: #F9F6F0;       
+            --primary-brown: #4A2E1F;  
+            --accent-orange: #D98C45;  
+            --secondary-text: #7D6E63; 
+            --white: #FFFFFF;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+        }
+
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-cream);
+            color: var(--primary-brown);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- BOTONES & UI --- */
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-brown);
+            color: var(--white);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 2px solid var(--primary-brown);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--primary-brown);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background-color: rgba(249, 246, 240, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(74, 46, 31, 0.05);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container img {
+            height: 60px; /* Ajuste de altura para el logo */
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .nav-links a:hover { color: var(--accent-orange); }
+
+        .cart-icon {
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        
+        .cart-icon:hover { transform: scale(1.1); }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent-orange);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--font-body);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+            padding-bottom: 50px;
+            position: relative;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--primary-brown);
+        }
+
+        .hero-text h1 span {
+            color: var(--accent-orange);
+            font-style: italic;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--secondary-text);
+            margin-bottom: 30px;
+            max-width: 450px;
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Fondo animado detrás del producto */
+        .blob-bg {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            background-color: var(--accent-orange);
+            border-radius: 48% 52% 68% 32% / 42% 28% 72% 58%;
+            z-index: -1;
+            opacity: 0.15;
+            animation: morph 8s ease-in-out infinite;
+        }
+
+        .product-hero-img {
+            width: 80%;
+            max-width: 380px;
+            height: auto;
+            filter: drop-shadow(0 25px 25px rgba(74,46,31,0.25)); /* Sombra realista */
+            transition: transform 0.5s ease;
+        }
+
+        .hero-image:hover .product-hero-img {
+            transform: scale(1.05) rotate(3deg);
+        }
+
+        @keyframes morph {
+            0% { border-radius: 48% 52% 68% 32% / 42% 28% 72% 58%; }
+            50% { border-radius: 65% 35% 36% 64% / 54% 51% 49% 46%; }
+            100% { border-radius: 48% 52% 68% 32% / 42% 28% 72% 58%; }
+        }
+
+        /* --- MARQUEE --- */
+        .marquee {
+            background-color: var(--primary-brown);
+            color: var(--bg-cream);
+            padding: 15px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 20s linear infinite;
+        }
+
+        .marquee span {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin: 0 40px;
+            font-style: italic;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- FEATURES --- */
+        .features {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .features h2 {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border: 1px solid rgba(74, 46, 31, 0.1);
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent-orange);
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--accent-orange);
+            margin-bottom: 20px;
+        }
+
+        /* --- SHOP SECTION --- */
+        .shop {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .shop-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .shop-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Círculo decorativo detrás del producto en tienda */
+        .shop-image::before {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background-color: var(--bg-cream);
+            border-radius: 50%;
+            z-index: 0;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .shop-image img {
+            position: relative;
+            z-index: 1;
+            max-width: 350px;
+            filter: drop-shadow(0 15px 20px rgba(0,0,0,0.15));
+        }
+
+        .shop-details {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .shop-details h2 { font-size: 3rem; margin-bottom: 10px; }
+        .subtitle { color: var(--accent-orange); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 20px; display: block; }
+        .price { font-size: 2rem; font-family: var(--font-heading); margin: 20px 0; display: block; color: var(--primary-brown); }
+        .description { color: var(--secondary-text); margin-bottom: 30px; }
+
+        .shop-actions { display: flex; gap: 20px; align-items: center; }
+
+        .quantity-selector {
+            display: flex;
+            border: 1px solid var(--primary-brown);
+            border-radius: 50px;
+            padding: 5px 15px;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .qty-btn { background: none; border: none; cursor: pointer; font-size: 1.2rem; color: var(--primary-brown); }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--primary-brown);
+            color: var(--bg-cream);
+            padding: 60px 0 20px;
+            text-align: center;
+        }
+
+        .footer-logo img {
+            width: 100px;
+            margin: 0 auto 30px;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .copyright { font-size: 0.8rem; opacity: 0.6; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+
+        /* --- CART SIDEBAR --- */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+            z-index: 2000;
+            transition: 0.4s ease;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open { right: 0; }
+        
+        .cart-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px;
+        }
+
+        .cart-items { flex-grow: 1; overflow-y: auto; }
+        
+        .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        
+        .cart-item img {
+            width: 60px; height: 60px; object-fit: contain; /* Contain para que se vea el frasco entero */
+            border: 1px solid #eee; border-radius: 10px; padding: 5px;
+        }
+
+        .total-row { display: flex; justify-content: space-between; font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 20px; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-text h1 { font-size: 3rem; }
+            .hero-image { order: -1; margin-bottom: 40px; }
+            .blob-bg { width: 300px; height: 300px; }
+            .nav-links { display: none; }
+            .shop-container { flex-direction: column; text-align: center; }
+            .shop-image::before { width: 280px; height: 280px; }
+            .cart-sidebar { width: 100%; right: -100%; }
+        }
+
+        /* Notificación Toast */
+        .toast {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background-color: var(--primary-brown); color: white; padding: 15px 30px;
+            border-radius: 50px; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 3000;
+        }
+        .toast.show { opacity: 1; bottom: 40px; visibility: visible; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo-container">
+                    <img src="logo.png" alt="Nocciola Logo">
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#producto">Producto</a></li>
+                    <li><a href="#filosofia">Filosofía</a></li>
+                </ul>
+                <div class="cart-icon" onclick="toggleCart()">
+                    <i class="ph ph-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Lo natural también sabe <span>delicioso</span>.</h1>
+                <p>Nocciola es una crema de avellanas auténtica, saludable y libre de gluten. Pensada para convertir cada momento en algo especial.</p>
+                <a href="#producto" class="btn">Comprar Ahora</a>
+            </div>
+            <div class="hero-image">
+                <div class="blob-bg"></div>
+                <!-- AQUÍ ESTÁ EL PRODUCTO PRINCIPAL -->
+                <img src="product.png" class="product-hero-img" alt="Nocciola Frasco Premium">
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-content">
+            <span>100% Natural</span> ✦ <span>Sin Gluten</span> ✦ <span>Sabor Irresistible</span> ✦ <span>Ingredientes Reales</span> ✦ <span>100% Natural</span> ✦ <span>Sin Gluten</span> ✦ <span>Sabor Irresistible</span> ✦ <span>Ingredientes Reales</span>
+        </div>
+    </div>
+
+    <!-- Filosofía -->
+    <section class="features" id="filosofia">
+        <div class="container">
+            <h2>Pura Avellana, Pura Felicidad</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="ph ph-plant feature-icon"></i>
+                    <h3>Ingredientes Auténticos</h3>
+                    <p>Sin conservantes ni aditivos extraños. Solo lo mejor de la naturaleza en tu mesa.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="ph ph-heart feature-icon"></i>
+                    <h3>Opción Saludable</h3>
+                    <p>Endulzada naturalmente y libre de gluten. Disfruta sin remordimientos.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="ph ph-bowl-food feature-icon"></i>
+                    <h3>Textura Cremosa</h3>
+                    <p>Perfecta para untar en tus desayunos, meriendas o acompañar tus postres favoritos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop / Product Section -->
+    <section class="shop" id="producto">
+        <div class="container shop-container">
+            <div class="shop-image">
+                <!-- AQUÍ ESTÁ EL PRODUCTO EN LA SECCIÓN DE COMPRA -->
+                <img src="product.png" alt="Nocciola Clásica Frasco">
+            </div>
+            <div class="shop-details">
+                <span class="subtitle">Edición Original</span>
+                <h2>Nocciola Clásica</h2>
+                <p class="description">Elaborada con avellanas tostadas seleccionadas. Una experiencia de sabor intensa y cremosa que respeta tu salud. Ideal para tostadas, frutas o simplemente a cucharadas.</p>
+                <span class="price">$12.50</span>
+                
+                <div class="shop-actions">
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="adjustQty(-1)">-</button>
+                        <span id="qty-display">1</span>
+                        <button class="qty-btn" onclick="adjustQty(1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCart()">Añadir a la Cesta</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="logo.png" alt="Nocciola Logo">
+            </div>
+            <div class="footer-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Contacto</a>
+            </div>
+            <p class="copyright">© 2023 Nocciola. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Tu Cesta</h3>
+            <span style="font-size:1.5rem; cursor:pointer;" onclick="toggleCart()"><i class="ph ph-x"></i></span>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <!-- Items se insertan aquí -->
+            <p style="text-align:center; color:#999; margin-top:50px;">Tu cesta está vacía</p>
+        </div>
+        <div class="cart-footer">
+            <div class="total-row">
+                <span>Total</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="btn" style="width: 100%" onclick="checkout()">Tramitar Pedido</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">¡Producto añadido a la cesta!</div>
+
+    <script>
+        // --- JAVASCRIPT ---
+
+        let cart = [];
+        let currentQty = 1;
+        const pricePerUnit = 12.50;
+
+        // Ajustar cantidad
+        function adjustQty(amount) {
+            currentQty += amount;
+            if (currentQty < 1) currentQty = 1;
+            document.getElementById('qty-display').innerText = currentQty;
+        }
+
+        // Toggle Carrito
+        function toggleCart() {
+            document.getElementById('cartSidebar').classList.toggle('open');
+        }
+
+        // Añadir al carrito
+        function addToCart() {
+            const product = {
+                id: 1,
+                name: "Nocciola Clásica",
+                price: pricePerUnit,
+                qty: currentQty,
+                image: "product.png" // Ahora usa la imagen del producto
+            };
+
+            const existingItem = cart.find(item => item.id === product.id);
+            if (existingItem) {
+                existingItem.qty += currentQty;
+            } else {
+                cart.push(product);
+            }
+
+            updateCartUI();
+            showToast();
+            currentQty = 1;
+            document.getElementById('qty-display').innerText = 1;
+        }
+
+        // Actualizar UI
+        function updateCartUI() {
+            const container = document.getElementById('cartItemsContainer');
+            const totalDisplay = document.getElementById('cartTotal');
+            const countBadge = document.querySelector('.cart-count');
+
+            const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+            countBadge.innerText = totalItems;
+
+            const totalPrice = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            totalDisplay.innerText = '$' + totalPrice.toFixed(2);
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#999; margin-top:50px;">Tu cesta está vacía</p>';
+            } else {
+                container.innerHTML = '';
+                cart.forEach((item, index) => {
+                    container.innerHTML += `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.name}">
+                            <div style="flex-grow:1;">
+                                <h4 style="font-family:var(--font-heading); font-size:1rem;">${item.name}</h4>
+                                <p style="font-size:0.85rem; color:#777;">${item.qty} x $${item.price.toFixed(2)}</p>
+                            </div>
+                            <span style="font-weight:bold;">$${(item.qty * item.price).toFixed(2)}</span>
+                            <i class="ph ph-trash" style="cursor:pointer; color:red; margin-left:10px;" onclick="removeItem(${index})"></i>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // Eliminar Item
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        // Mostrar Notificación
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        // Checkout Fake
+        function checkout() {
+            if(cart.length === 0) return;
+            alert('¡Gracias por tu compra! (Esto es una demo)');
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        }
+    </script>
+</body>
+</html>
